@@ -48,7 +48,7 @@ There is a sample site included in the repository that used [Pouchdb](https://po
 
 ## Mode of employ
 
-For real life scenarios, a site should run on port 80 (or 443). It is strongly suggested to run the server without using `sudo`, for example, it is possible to use authbind and launch Dynamite as follows:
+For real life scenarios, a site should bind to port 80 (or 443). It is strongly suggested to run the server without root priviledges (avoid using `sudo` to launch the server). It is possible to use authbind and then launch Dynamite as follows:
  ```
 # sudo apt-get install authbind
 # sudo touch /etc/authbind/byport/80
@@ -59,7 +59,7 @@ For real life scenarios, a site should run on port 80 (or 443). It is strongly s
 ``` 
 The last command launches an instance of a beam virtual machine, redirecting stdout to a log file.
 
-To start Dynamite on an `iex` console, binding to port 80 without root priviledges use:.
+To start Dynamite on an `iex` console, binding to port 80 without root priviledges use:
 ```
 # authbind --deep iex -S mix
 ``` 
