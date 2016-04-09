@@ -1,5 +1,9 @@
 /_build
-/cover
 /deps
+Mnesia*
+/config/config.exs
 erl_crash.dump
+log.txt
 *.ez
+*.sw*
+*.log
