@@ -1,0 +1,48 @@
+use Mix.Config
+
+# IMPORTANT: never store passwords on files that reside on git repositories.
+
+# This file is to be copied as config.exs
+# The intention is to have different configurations independient on the
+# repository. That's why config.exs is present in .gitignore 
+
+# The application is designed to switch sites at runtime, by changing the 
+# site key. The site key will define at which addresses, ports and
+# databases the application will refer.
+#
+#     import_config "#{Mix.env}.exs"
+
+config :dynamite, 
+  site: :example1,
+  sites: [
+    example1: [
+      address: "example.com",
+      port: 8080,
+      database: [
+        name: :couchdb,
+        server: "http://example.com:5984",
+        user: "admin",
+        pwd: "avoidwritingithere"
+      ],
+      routing_table: [
+        routes: "priv/example1/routes/",
+        views: "priv/example1/views/",
+        static: "priv/example1/static/"
+      ]
+    ],
+    example2: [
+      address: "example.net",
+      port: 80,
+      database: [
+        name: :couchdb,
+        server: "http://example.net:5984",
+        user: "admin",
+        pwd: "avoidwritingithere"
+      ],
+      routing_table: [
+        routes: "priv/example2/routes/",
+        views: "priv/example2/views/",
+        static: "priv/example2/static/"
+      ]
+    ]
+  ]
