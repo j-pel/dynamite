@@ -27,7 +27,7 @@ defmodule Dynamite do
     compile_routes
     device = File.open!("dbg.log", [:write])
     Application.put_env(:dbg, :device, device) 
-    PelaresCom.Supervisor.start_link([])
+    Dynamite.Supervisor.start_link([])
   end
 
 end
