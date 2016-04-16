@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Dynamite by j-pel</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Dynamite</h1>
+        <p class="header">Lightweight web framework on top of Cowboy: a dynamite powered Cowboy</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/j-pel/dynamite/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/j-pel/dynamite/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/j-pel/dynamite">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/j-pel">j-pel</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a id="dynamite-web-framework" class="anchor" href="#dynamite-web-framework" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dynamite (web framework)</h1>
+
+<p>Lightweight web framework on top of Cowboy: a dynamite powered Cowboy</p>
+
+<p>This is a responsive and lightweight web framework written in Elixir that run on top of the <a href="http://ninenines.eu/docs/en/cowboy/HEAD/guide/introduction/">Cowboy web server</a></p>
+
+<p>The scope of this project is to offer a dynamic environment with simple but powerful and up-to-date tools where several sites could be hosted at the same time, sharing resources when needed but with a safe and clear separation of scopes.</p>
+
+<p>It is known to work well with:</p>
+
+<ul>
+<li>Elixir &gt; 1.1.0</li>
+<li>Cowboy &gt; 1.0.0</li>
+</ul>
+
+<h2>
+<a id="disclaimer" class="anchor" href="#disclaimer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Disclaimer:</h2>
+
+<p>The current implementation is to be taken as a proof of concept. The author is using it as a vehicle for learning Elixir. For any serious job, please consider more mature frameworks such as Phoenix.</p>
+
+<p>However, given that is so simple yet well featured, flexible and performant, it could be useful for some use cases. The author have several instances running smoothly on production environments 24/7 in both Linux and Windows.</p>
+
+<h2>
+<a id="instructions" class="anchor" href="#instructions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Instructions:</h2>
+
+<p>With Erlang/Elixir installed, clone the repo and run within the cloned directory:</p>
+
+<pre><code>    mix deps.get
+    mix deps.compile
+    cp config/config.sample config/config.exs
+    iex -S mix
+</code></pre>
+
+<p>Then, open a browser to localhost:8080. There is a sample site configured to serve static and dynamic content, including broadcasting through websockets.</p>
+
+<p>Several sites could be configured to work at the same time and from different locations. It is possible to change the content of the site dynamically without ever stopping the server.</p>
+
+<p>It is very easy to setup a working site on Dynamite. Each site is composed by:</p>
+
+<ul>
+<li>Routes: one or more Cowboy routing as EEx dynamic files </li>
+<li>Views: dynamic HTML with EEx parsing</li>
+<li>Static: browser side functionality and static resources</li>
+</ul>
+
+<p>The routes and views are parsed at runtime and served dynamically, so they could be modified at any time, thus facilitating the development of web applications.</p>
+
+<p>In order to have a performant web application, the programmer should find a good balance between server side and browser side functionality. For example, one method to optimize the flow of data is to use a front end datastore with sync capabilities to the back end database. The browser should handle all the user interaction, formatting, data sanitization and layout (bells and whistles) while the server should handle the data retrieval and storage.</p>
+
+<p>There is a sample site included in the repository that used <a href="https://pouchdb.com/api.html">Pouchdb</a> as a front end for <a href="http://couchdb.apache.org/">Couchdb</a> for all the data handling. The sample site includes several javascript libraries for enhancing the browser functionality:</p>
+
+<ul>
+<li><a href="http://momentjs.com/docs">Momentjs</a></li>
+<li>
+<a href="http://nnnick.github.io/Chart.js/docs-v2/">Chartjs</a> </li>
+<li><a href="http://j-pel.github.io/dynamize">Dynamize</a></li>
+</ul>
+
+<h2>
+<a id="mode-of-employ" class="anchor" href="#mode-of-employ" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mode of employ</h2>
+
+<p>For real life scenarios, a site should bind to port 80 (or 443). It is strongly suggested to run the server without root priviledges (avoid using <code>sudo</code> to launch the server). It is possible to use authbind and then launch Dynamite as follows:</p>
+
+<pre><code># sudo apt-get install authbind
+# sudo touch /etc/authbind/byport/80
+# sudo chown user /etc/authbind/byport/80
+# sudo chmod 755 /etc/authbind/byport/80
+# cd /home/user/path/to/dynamite
+# authbind --deep mix run --name web@example.com --no-halt &gt; test/service.log 2&gt;&amp;1 &lt; /dev/null &amp;
+</code></pre>
+
+<p>The last command launches an instance of a beam virtual machine, redirecting stdout to a log file.</p>
+
+<p>To start Dynamite on an <code>iex</code> console, binding to port 80 without root priviledges use:</p>
+
+<pre><code># authbind --deep iex -S mix
+</code></pre>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License:</h2>
+
+<p>This code is released under the MIT license.  See LICENSE.</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
