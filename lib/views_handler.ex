@@ -28,7 +28,16 @@ defmodule ViewsHandler do
     sites[site][:database][:server]
   end
 
+  def get_info(:static_route) do
+    site = Application.fetch_env!(:dynamite, :site)
+    sites = Application.fetch_env!(:dynamite, :sites)
+    sites[site][:routing_table][:static]
+  end
+
   def terminate(_reason, _request, _state) do
+    #IO.puts("Terminating for reason: #{inspect(reason)}")
+    #IO.puts("Terminating after request: #{inspect(request)}")
+    #IO.puts("Terminating with state: #{inspect(state)}")
     :ok
   end
 end
