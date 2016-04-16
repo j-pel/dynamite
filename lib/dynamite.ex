@@ -25,6 +25,19 @@ defmodule Dynamite do
                                    ) 
 
     compile_routes
+
+    { :ok, _ } = :cowboy.start_http(:console, 
+                                    100,
+                                   [{:port, 9999}],  
+                                   [{ :env, [{:dispatch, []}]}]
+                                   ) 
+    :cowboy.set_env(:console, :dispatch, :cowboy_router.compile([
+      {:_, 
+        [
+          {"/", ConsoleHandler, [page: "console"]}
+        ]
+      }
+    ]))
     device = File.open!("dbg.log", [:write])
     Application.put_env(:dbg, :device, device) 
     Dynamite.Supervisor.start_link([])
