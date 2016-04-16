@@ -23,6 +23,7 @@ With Erlang/Elixir installed, clone the repo and run within the cloned directory
  ```
     mix deps.get
     mix deps.compile
+    cp config/config.sample config/config.exs
     iex -S mix
  ```
 
