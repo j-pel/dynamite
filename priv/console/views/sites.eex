@@ -1,0 +1,5 @@
+<% sites = ConsoleHandler.get_sites %>
+<% [site|_] = sites %>
+<% {_, info} = site %>
+<% {:ok, this} = Poison.encode([1, 2, info[:port]]) %>
+<%= this %>

@@ -34,7 +34,8 @@ defmodule Dynamite do
     :cowboy.set_env(:console, :dispatch, :cowboy_router.compile([
       {:_, 
         [
-          {"/", ConsoleHandler, [page: "console"]}
+          {"/", ConsoleHandler, [page: "console"]},
+          {"/c/:com/[...]", CommandHandler, []}
         ]
       }
     ]))

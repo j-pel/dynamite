@@ -21,4 +21,11 @@ defmodule Dynamite.Mixfile do
 			{ :poison, "~> 1.5" },
 			{ :httpoison, "> 0.8.0" }]    
   end
+
+  defp package do
+    [files: ~w(lib mix.exs README.md LICENSE),
+     maintainers: ["Jorge M. Peláez"],
+     licenses: ["MIT"],
+     links: %{"GitHub" => "https://github.com/j-pel/dynamite"}]
+  end
 end

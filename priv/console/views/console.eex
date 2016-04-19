@@ -15,10 +15,11 @@
       <h1>Dynamite Console</h1>     
       <p>This console is for handling all the server options and features.</p>
       <h2>Sites</h2>     
-      <% sites = ConsoleHandler.get_sites() %>
+      <% sites = ConsoleHandler.get_sites %>
       <% [site|_] = sites %>
-      <p><%#= site[:port] %></p>
+      <% {_, info} = site %>
     </div>
+    <textarea><%= info[:port] %></textarea>
   <script>
   </script>
 
