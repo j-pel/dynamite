@@ -4,7 +4,7 @@ Lightweight web framework on top of Cowboy: a dynamite powered Cowboy
 
 This is a responsive and lightweight web framework written in Elixir that run on top of the [Cowboy web server](http://ninenines.eu/docs/en/cowboy/HEAD/guide/introduction/)
 
-The scope of this project is to offer a dynamic environment with simple but powerful and up-to-date tools where several sites could be hosted at the same time, sharing resources when needed but with a safe and clear separation of scopes.
+The scope of this project is to offer a dynamic environment with a simple but powerful up-to-date tools where several sites could be hosted at the same time, sharing resources when needed but with a safe and clear separation of scopes.
 
 It is known to work well with:
 * Elixir > 1.1.0
@@ -29,7 +29,7 @@ With Erlang/Elixir installed, clone the repo and run within the cloned directory
 
 Then, open a browser to localhost:8080. There is a sample site configured to serve static and dynamic content, including broadcasting through websockets.
 
-Several sites could be configured to work at the same time and from different locations. It is possible to change the content of the site dynamically without ever stopping the server.
+Several sites could be configured to work at the same time, listening to different ports and serving content comming from  different locations. There is a default site listening to port 9999 that permit to configure Dynamite and manage the options for the sites dynamically without ever stopping the server.
 
 It is very easy to setup a working site on Dynamite. Each site is composed by:
 
