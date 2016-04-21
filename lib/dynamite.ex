@@ -1,47 +1,34 @@
 defmodule Dynamite do
   use Application
 
-  def set_site(site) do
-    Application.put_env(:dynamite,:site,site)
-    compile_routes
-  end
-  
-  def compile_routes do
-    site = Application.fetch_env!(:dynamite, :site)
-    sites = Application.fetch_env!(:dynamite, :sites)
-    table = sites[site][:routing_table]
-    EEx.eval_file table[:routes]<>"main.eex"
-    :ok
-  end
-
   def start(_type, _args) do
-    site = Application.fetch_env!(:dynamite, :site)
-    sites = Application.fetch_env!(:dynamite, :sites)
-    port = sites[site][:port]
-    { :ok, _ } = :cowboy.start_http(:http, 
-                                    100,
-                                   [{:port, port}],  
-                                   [{ :env, [{:dispatch, []}]}]
-                                   ) 
-
-    compile_routes
-
-    { :ok, _ } = :cowboy.start_http(:console, 
-                                    100,
-                                   [{:port, 9999}],  
-                                   [{ :env, [{:dispatch, []}]}]
-                                   ) 
-    :cowboy.set_env(:console, :dispatch, :cowboy_router.compile([
-      {:_, 
-        [
-          {"/", ConsoleHandler, [page: "console"]},
-          {"/c/:com/[...]", CommandHandler, []}
-        ]
-      }
-    ]))
+    Application.fetch_env!(:dynamite, :sites)
+      |>launch
     device = File.open!("dbg.log", [:write])
     Application.put_env(:dbg, :device, device) 
     Dynamite.Supervisor.start_link([])
   end
+  
+  def site_info(site, :static_path) do
+    sites = Application.fetch_env!(:dynamite, :sites)
+    site = sites[site]
+    table = site[:routing_table]
+    route = table[:static]
+  end
 
+  defp launch([]) do
+  end
+
+  defp launch(sites) do
+    [site|rest] = sites
+    {name,info} = site
+    {:ok,pid} = :cowboy.start_http(name, 100,
+      [{:port, info[:port]}], [{ :env, [{:dispatch, []}]}]
+    )
+    table = info[:routing_table]
+    EEx.eval_file table[:routes]<>"main.eex"
+    IO.puts("info for #{name}: #{inspect(pid)}")
+    launch(rest)
+  end
+  
 end

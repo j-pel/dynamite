@@ -5,7 +5,8 @@ defmodule Dynamite.Mixfile do
     [app: :dynamite,
      version: "0.0.1",
      elixir: "> 1.0.0",
-     deps: deps]
+     deps: deps,
+     pakage: package]
   end
 
   def application do

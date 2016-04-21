@@ -1,23 +1,34 @@
 use Mix.Config
 
-# IMPORTANT: never store passwords on files that reside on git repositories.
-
-# This file is to be copied as config.exs
-# The intention is to have different configurations independient on the
-# repository. That's why config.exs is present in .gitignore 
-
-# The application is designed to switch sites at runtime, by changing the 
-# site key. The site key will define at which addresses, ports and
-# databases the application will refer.
+# Dynamite is configured to serve several sites, each listening to
+# a different port simultaneously. There is a web application included
+# called 'fuse' that is configured by default on port 9999 with the
+# scope of administer Dynamite behavior at runtime. Everything is
+# dynamic: there is no need to shutdown a Dynamite server.
 #
 #     import_config "#{Mix.env}.exs"
 
+# IMPORTANT: never store database credentials or passwords on files
+# that may reside on git repositories. The default .gitignore file
+# excludes the config.exs file.
+
+# This file is a template file to be copied as config.exs and modified
+# to reflect the server needs
+
 config :dynamite, 
-  site: :example1,
   sites: [
+    fuse: [
+      port: 9999,
+      hostname: "localhost",
+      routing_table: [
+        routes: "priv/fuse/routes/",
+        views: "priv/fuse/views/",
+        static: "priv/fuse/static/"
+      ]
+    ],
     example1: [
-      address: "example.com",
       port: 8080,
+      hostname: "localhost",
       database: [
         name: :couchdb,
         server: "http://example.com:5984",
@@ -25,24 +36,24 @@ config :dynamite,
         pwd: "avoidwritingithere"
       ],
       routing_table: [
-        routes: "priv/example1/routes/",
-        views: "priv/example1/views/",
-        static: "priv/example1/static/"
+        routes: "/home/user/www/example1/routes/",
+        views: "/home/user/www/example1/views/",
+        static: "/home/user/www/example1/static/"
       ]
     ],
     example2: [
-      address: "example.net",
-      port: 80,
+      port: 8081,
+      hostname: "localhost",
       database: [
         name: :couchdb,
-        server: "http://example.net:5984",
+        server: "http://example.com:5984",
         user: "admin",
         pwd: "avoidwritingithere"
       ],
       routing_table: [
-        routes: "priv/example2/routes/",
-        views: "priv/example2/views/",
-        static: "priv/example2/static/"
+        routes: "/home/user/www/example1/routes/",
+        views: "/home/user/www/example1/views/",
+        static: "/home/user/www/example1/static/"
       ]
     ]
   ]

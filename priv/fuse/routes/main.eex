@@ -1,0 +1,12 @@
+<% gen_dispatch = :cowboy_router.compile([{:_,
+  [
+    {"/", ViewsHandler, [page: "console"]},
+    {"/favicon.ico", :cowboy_static,
+      {:priv_file, :dynamite, "fuse/static/favicon.ico"}},
+    {"/static/[...]", :cowboy_static,
+      {:priv_dir, :dynamite, "fuse/static"}},
+    {"/c/:com/[...]", CommandHandler, []}
+  ]
+  }])
+  :cowboy.set_env(:fuse, :dispatch, gen_dispatch)
+%>

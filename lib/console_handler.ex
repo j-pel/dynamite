@@ -16,7 +16,7 @@ defmodule ConsoleHandler do
   end
 
   def eval(page, opts) do
-    page = :binary.list_to_bin(:code.priv_dir(:dynamite)) <> "/console/views/" <> page <> ".eex"
+    page = :binary.list_to_bin(:code.priv_dir(:dynamite)) <> "/fuse/views/" <> page <> ".eex"
     EEx.eval_file page, opts
   end
   
