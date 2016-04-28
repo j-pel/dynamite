@@ -16,22 +16,16 @@ defmodule ViewsHandler do
   end
 
   def eval(page, opts) do
-    site = Application.fetch_env!(:dynamite, :site)
-    sites = Application.fetch_env!(:dynamite, :sites)
-    table = sites[site][:routing_table]
-		EEx.eval_file table[:views] <> page <> ".eex", opts
+    {port,_} = :cowboy_req.port(opts[:req])
+    {_site, info} = get_info(port)
+    EEx.eval_file info[:routing_table][:views] <> page <> ".eex", opts
   end
   
-  def get_info(:db_server) do
-    site = Application.fetch_env!(:dynamite, :site)
-    sites = Application.fetch_env!(:dynamite, :sites)
-    sites[site][:database][:server]
-  end
-
-  def get_info(:static_route) do
-    site = Application.fetch_env!(:dynamite, :site)
-    sites = Application.fetch_env!(:dynamite, :sites)
-    sites[site][:routing_table][:static]
+  def get_info(port) do
+    Application.fetch_env!(:dynamite, :sites)
+      |> Enum.find(fn(x) -> { _, [{:port, p}| _]} = x
+          p == port
+        end)
   end
 
   def terminate(_reason, _request, _state) do
