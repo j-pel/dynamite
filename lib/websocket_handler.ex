@@ -6,6 +6,7 @@ defmodule WebsocketHandler do
   end
 
   def websocket_init(_TransportName, req, _opts) do
+    IO.puts("websocket_init: #{inspect(req.port)}")
     ws_broadcast(:nodes, {:new, :erlang.pid_to_list(self())})
     {:ok, req, :undefined_state }
   end
@@ -33,12 +34,13 @@ defmodule WebsocketHandler do
   end
 
   def websocket_info({:nodes, ref, _foo}, req, state) do
+    {port, req} = :cowboy_req.port(req)
     ret = case ref do
       { :new, pid } -> "new node "<>:erlang.list_to_binary(pid)
       { :bye, pid } -> "bye node "<>:erlang.list_to_binary(pid)
       other -> syntax_error(other)
     end
-    nodes = ws_list
+    nodes = ws_list(port)
       |>Enum.map(fn(pid)->:erlang.pid_to_list(pid) end)
       |>:erlang.list_to_binary
     this_node = self()
@@ -55,7 +57,10 @@ defmodule WebsocketHandler do
   @doc """
   Gets the list of all active websocket PIDs from the ranch supervisor.
   """
-  def ws_list() do
+  def ws_list(port) do
+    IO.puts("porty: #{inspect(port)}")
+    {_site, info} = get_info(port)
+    IO.puts("infoy: #{inspect(info)}")
     Process.whereis(:ranch_sup) 
       |> Supervisor.which_children
       |> Enum.find(fn(x) -> elem(x,0) == {:ranch_listener_sup, :http} end)
@@ -69,12 +74,22 @@ defmodule WebsocketHandler do
         [current_function: {:cowboy_websocket, :handler_loop, 4}] ==
         Process.info(b,[:current_function]) end)
   end
+  def ws_list() do
+    []
+  end
+
+  def get_info(port) do
+    Application.fetch_env!(:dynamite, :sites)
+      |> Enum.find(fn(x) -> { _, [{:port, p}| _]} = x
+          p == port
+        end)
+  end
   
   @doc """
   Broadcasts a `msg` to all active websockets supervised by ranch_conns_sup.
   """
   def ws_broadcast(type, msg, opts \\ []) do
-    ws_list |> Enum.map(fn(pid) -> Process.send(pid,{type,msg,opts},[]) end)
+    ws_list() |> Enum.map(fn(pid) -> Process.send(pid,{type,msg,opts},[]) end)
   end
 
   ## Errors
