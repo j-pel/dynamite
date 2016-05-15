@@ -1,0 +1,59 @@
+use Mix.Config
+
+# Dynamite is configured to serve several sites, each listening to
+# a different port simultaneously. There is a web application included
+# called 'fuse' that is configured by default on port 9999 with the
+# scope of administer Dynamite behavior at runtime. Everything is
+# dynamic: there is no need to shutdown a Dynamite server.
+#
+#     import_config "#{Mix.env}.exs"
+
+# IMPORTANT: never store database credentials or passwords on files
+# that may reside on git repositories. The default .gitignore file
+# excludes the config.exs file.
+
+# This file is a template file to be copied as config.exs and modified
+# to reflect the server needs
+
+config :dynamite, 
+  sites: [
+    fuse: [
+      port: 9999,
+      hostname: "localhost",
+      routing_table: [
+        routes: "priv/fuse/routes/",
+        views: "priv/fuse/views/",
+        static: "priv/fuse/static/"
+      ]
+    ],
+    example1: [
+      port: 8080,
+      hostname: "localhost",
+      database: [
+        name: :couchdb,
+        server: "http://example.com:5984",
+        user: "admin",
+        pwd: "avoidwritingithere"
+      ],
+      routing_table: [
+        routes: "/home/user/www/example1/routes/",
+        views: "/home/user/www/example1/views/",
+        static: "/home/user/www/example1/static/"
+      ]
+    ],
+    example2: [
+      port: 8081,
+      hostname: "localhost",
+      database: [
+        name: :couchdb,
+        server: "http://example.com:5984",
+        user: "admin",
+        pwd: "avoidwritingithere"
+      ],
+      routing_table: [
+        routes: "/home/user/www/example1/routes/",
+        views: "/home/user/www/example1/views/",
+        static: "/home/user/www/example1/static/"
+      ]
+    ]
+  ]
