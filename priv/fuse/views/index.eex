@@ -13,7 +13,7 @@
     </div>
     <div id='content'>
       <h1>Dynamite Console</h1>     
-      <p>This console is for handling all the server options and features.</p>
+      <p>Dynamite is running. This console is for handling all the server options and features.</p>
       <h2>Sites</h2>     
       <% sites = ConsoleHandler.get_sites %>
       <% [site|_] = sites %>
