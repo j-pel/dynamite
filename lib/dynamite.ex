@@ -30,5 +30,4 @@ defmodule Dynamite do
     IO.puts("info for #{name}: #{inspect(pid)}")
     launch(rest)
   end
-  
 end
