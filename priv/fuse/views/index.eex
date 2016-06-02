@@ -18,11 +18,18 @@
       <% sites = ConsoleHandler.get_sites %>
       <% [site|_] = sites %>
       <% {_, info} = site %>
+      <a id='conn'><span id='conn_msg'>Conectar</span>&nbsp;<span id='server_time' class='time'></span></a>
+      <input class=text-box id='message_string' placeholder='Comando'></input>
+      <a class=text-box href='#Mensaje'><span id='server_reply' class='reply'>&nbsp;</span></a>
+      <h3>Pruebas dinámicas</h3>
+      <% message = WebsocketHandler.ws_list|>Enum.map(fn(pid)->:erlang.pid_to_list(pid) end)|>:erlang.list_to_binary %>
+      <p>Nodos conectados => (<span id=nodes_list><%= message %></span>)</p>
     </div>
     <textarea><%= info[:port] %></textarea>
-  <script>
-  </script>
-
+    <script src="/static/js/websockets.js"></script>
+    <script>
+      websockets.init();
+    </script>
   </body>
 </html>
 

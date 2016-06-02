@@ -89,7 +89,8 @@ defmodule WebsocketHandler do
   Broadcasts a `msg` to all active websockets supervised by ranch_conns_sup.
   """
   def ws_broadcast(type, msg, opts \\ []) do
-    ws_list() |> Enum.map(fn(pid) -> Process.send(pid,{type,msg,opts},[]) end)
+    ws_list() 
+      |> Enum.map(fn(pid) -> Process.send(pid,{type,msg,opts},[]) end)
   end
 
   ## Errors

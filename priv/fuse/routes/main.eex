@@ -7,6 +7,7 @@
           {:priv_file, :dynamite, "fuse/static/favicon.ico"}},
         {"/static/[...]", :cowboy_static,
           {:priv_dir, :dynamite, "fuse/static"}},
+        {"/ws", WebsocketHandler, []},
         {"/c/:com/[...]", CommandHandler, []}
       ]
     }])
